@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://kishxrx:eventhubb@eventhub-cluster.g56inn5.mongodb.net/?retryWrites=true&w=majority&appName=Eventhub-Cluster", {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -27,3 +28,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
+
+const registrationRoutes = require("./routes/registrationRoutes");
+
+app.use("/api/registrations", registrationRoutes);
